@@ -8,8 +8,8 @@ const theme = {
   green: '#41B979',
   setFlex: (justifyContent = 'center', alignItem = 'center') => css`
     display: flex;
-    align-item: $(justifyContent);
-    justify-content: $(alignItem);
+    align-items: ${justifyContent};
+    justify-content: ${alignItem};
   `,
 };
 
