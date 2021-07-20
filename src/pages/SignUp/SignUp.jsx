@@ -51,7 +51,6 @@ export default function SignUp() {
     })
       .then(response => response.json())
       .then(result => {
-        //임의로적음
         if (result.message === 'SUCCESS') {
           alert('회원가입이 되었습니다');
         } else {
@@ -194,6 +193,14 @@ const InputPhoneNum = styled.input`
   border-width: 1px;
   width: 350px;
   height: 45px;
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
 
 const SignUpButton = styled.button`
