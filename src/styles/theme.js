@@ -6,12 +6,11 @@ const theme = {
   subFontColor: '#CBCBCB',
   red: '#EF6253',
   green: '#41B979',
+  setFlex: (justifyContent = 'center', alignItem = 'center') => css`
+    display: flex;
+    align-item: $(justifyContent);
+    justify-content: $(alignItem);
+  `,
 };
 
-const setFlex = (justifyContent = 'center', alignItem = 'center') => css`
-  display: flex;
-  align-item: $(justifyContent);
-  justify-content: $(alignItem);
-`;
-
-export { theme, setFlex };
+export default theme;
