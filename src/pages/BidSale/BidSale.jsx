@@ -123,9 +123,6 @@ export default function Bid() {
       });
   });
 
-  //const isCurrentBuyingPriceValid = !currentBuyingPrice;
-  //const isCurrentSellingPrice = !currentSellingPrice; // 언디파인이면 즉시판매가 버튼이 비활성화 되어야함
-
   return (
     <BidMain>
       <ProductImgBox>
@@ -359,8 +356,6 @@ const BidSaleButton = styled.button`
       ? ({ theme }) => theme.green
       : ({ theme }) => theme.cardBackground};
   border: none;
-  font-weight: ${props => (props.backgroundColor ? 'bold' : '')};
-  color: ${props => (props.backgroundColor ? 'white' : 'black')};
 `;
 
 const ImmediateSaleButton = styled.button`

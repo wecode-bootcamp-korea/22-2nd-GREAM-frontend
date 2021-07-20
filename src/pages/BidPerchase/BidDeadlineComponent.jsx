@@ -13,17 +13,28 @@ export default function BidDeadlineComponent({
     setButtonId(id);
   };
 
-  const date = new Date();
+  var date = new Date();
   date.setDate(date.getDate() + parseInt(buttonDate));
+  var month = '' + (date.getMonth() + 1);
+  var day = '' + date.getDate();
+  var year = date.getFullYear();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+
+  let deadlineDate = [year, month, day].join('-');
+  const isDeadlineInvalid = date.toLocaleString() === 'Invalid Date';
 
   return (
     <BidDeadline>
       <BidDeadlineTitle>입찰 마감기한</BidDeadlineTitle>
       <BidDeadlineNotice>
-        <SelectedButton>{buttonDate}일</SelectedButton>
+        <SelectedButton>
+          {isDeadlineInvalid ? '--' : buttonDate}일
+        </SelectedButton>
         <SelectedDeadlineDate>
           <span>(</span>
-          <span>{date.toLocaleString()}</span>
+          <span>{isDeadlineInvalid ? '마감일자 선택' : deadlineDate}</span>
           <span>)</span>
         </SelectedDeadlineDate>
         <DeadlineButtonBox>
@@ -94,6 +105,7 @@ const BidDeadline = styled.div`
 const BidDeadlineTitle = styled.div`
   margin-bottom: 10px;
   margin-top: 10px;
+  font-weight: bold;
 `;
 
 const BidDeadlineNotice = styled.div`

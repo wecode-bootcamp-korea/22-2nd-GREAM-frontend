@@ -6,7 +6,7 @@ import SignUp from './pages/SignUp/SignUp';
 import Detail from './pages/Detail/Detail';
 import Shop from './pages/Shop/Shop';
 import MyPage from './pages/MyPage/MyPage';
-import Bid from './pages/Bid/Bid';
+import BidPerchase from './pages/BidPerchase/BidPerchase';
 import Nav from './components/Nav/Nav';
 import Footer from './components/Footer/Footer';
 import BidSale from './pages/BidSale/BidSale';
@@ -22,8 +22,8 @@ class Routes extends React.Component {
           <Route exact path="/login" component={Login} />
           <Route exact path="/detail/:id" component={Detail} />
           <Route exact path="/mypage" component={MyPage} />
-          <Route exact path="/bid" component={Bid} />
           <Route exact path="/bidsale" component={BidSale} />
+          <Route exact path="/bidperchase" component={BidPerchase} />
         </Switch>
         <Footer />
       </Router>

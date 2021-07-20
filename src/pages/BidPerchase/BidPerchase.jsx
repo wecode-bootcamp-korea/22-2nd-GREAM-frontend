@@ -52,18 +52,23 @@ export default function Bid() {
     if (!isAllBidValueValid) {
       return;
     }
-
+    //입찰 구매
     fetch('http://18.222.211.21:8000/orders/bidding?type=buy', {
       method: 'POST',
       body: JSON.stringify({
         product_id: 10,
-        expired_within_id: +buttonId,
-        price: +suggestedPriceValue,
+        expired_within_id: Number(buttonId),
+        price: Number(suggestedPriceValue),
       }),
     })
       .then(response => response.json())
       .then(result => {
-        console.log('메시지', result.message); // 확인
+        if (result.message === 'NEW_BID_CREATED') {
+          alert('입찰 구매 신청이 완료되었습니다!');
+        } else {
+          alert('다시 시도해 주세요!');
+        }
+        console.log('메시지', result.message);
       });
   };
 
@@ -113,10 +118,6 @@ export default function Bid() {
       });
   }, []);
 
-  //
-  const isCurrentBuyingPriceValid = currentBuyingPrice;
-  const isCurrentSellingPrice = currentSellingPrice;
-
   return (
     <BidMain>
       <ProductImgBox>
@@ -133,16 +134,14 @@ export default function Bid() {
                 즉시구매가
               </ImmediatePerchasePriceTitle>
               <ImmediatePerchasePrice>
-                {isCurrentBuyingPriceValid
-                  ? Math.round(currentBuyingPrice)
-                  : '--'}{' '}
+                {currentBuyingPrice ? Math.round(currentBuyingPrice) : '---'}
                 <span>원</span>
               </ImmediatePerchasePrice>
             </ImmediatePerchasePriceBox>
             <ImmediateSalePriceBox>
               <ImmediateSalePriceTitle>즉시판매가</ImmediateSalePriceTitle>
               <ImmediateSalePrice>
-                {isCurrentSellingPrice ? Math.round(currentSellingPrice) : '--'}{' '}
+                {currentSellingPrice ? Math.round(currentSellingPrice) : '---'}
                 <span>원</span>
               </ImmediateSalePrice>
             </ImmediateSalePriceBox>
@@ -161,7 +160,7 @@ export default function Bid() {
                 type="button"
                 onClick={ImmediatePerchase}
                 backgroundColor={onlyImmediatePerchase}
-                disabled={!isCurrentBuyingPriceValid}
+                disabled={!currentBuyingPrice}
               >
                 즉시 구매
               </ImmediatePerchaseButton>
@@ -254,6 +253,9 @@ const ProductImg = styled.img`
 
 const ImgInfo = styled.div`
   background-color: white;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 5px;
 `;
 
 const BidBox = styled.div`
@@ -365,15 +367,11 @@ const ShipmentAddressDetailBox = styled.div`
 
 const ShipmentTitle = styled.div`
   margin-bottom: 10px;
+  font-weight: bold;
 `;
 
 const ShipmentReciever = styled.div`
   margin-bottom: 5px;
-`;
-
-//버튼정렬 안되는 부분 피알 올리기 (도저히 알 수 없음!)
-const ShipmentInfoChangeButtonBox = styled.span`
-  display: ${({ theme }) => theme.setFlex('center', 'center')};
 `;
 
 const SubmitButtonBox = styled.div`
