@@ -29,12 +29,14 @@ footer, header, hgroup, menu, nav, section {
 
 * {
   box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
+
 }
 
 body {
 	line-height: 1;
 }
+
 ol, ul {
 	list-style: none;
 }
@@ -50,8 +52,6 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-
-
 
 `;
 
