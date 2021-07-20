@@ -14,6 +14,7 @@ const theme = {
   subFontColor: '#CBCBCB',
   red: '#EF6253',
   green: '#41B979',
+
   setFlex: (justifyContent = 'center', alignItem = 'center') => css`
     display: flex;
     justify-content: ${justifyContent};
