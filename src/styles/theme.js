@@ -1,5 +1,13 @@
 import { css } from 'styled-components';
 
+const deviceSizes = {
+  desktop: `1290px`,
+};
+
+const query = {
+  desktop: `screen and (min-width: ${deviceSizes.desktop})`,
+};
+
 const theme = {
   cardBackground: '#F4F4F4',
   fontColor: '#1D1D1D',
@@ -16,6 +24,7 @@ const theme = {
     border: 0;
     cursor: pointer;
   `,
+  query,
 };
 
 export default theme;
