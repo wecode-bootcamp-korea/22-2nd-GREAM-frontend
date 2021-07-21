@@ -11,6 +11,11 @@ const theme = {
     justify-content: ${justifyContent};
     align-items: ${alignItem};
   `,
+  resetBtn: css`
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+  `,
 };
 
 export default theme;
