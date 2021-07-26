@@ -9,6 +9,7 @@ import MyPage from './pages/MyPage/MyPage';
 import Bid from './pages/Bid/Bid';
 import Nav from './components/Nav/Nav';
 import Footer from './components/Footer/Footer';
+import BidSale from './pages/BidSale/BidSale';
 
 class Routes extends React.Component {
   render() {
@@ -22,6 +23,7 @@ class Routes extends React.Component {
           <Route exact path="/detail/:id" component={Detail} />
           <Route exact path="/mypage" component={MyPage} />
           <Route exact path="/bid" component={Bid} />
+          <Route exact path="/bidsale" component={BidSale} />
         </Switch>
         <Footer />
       </Router>
