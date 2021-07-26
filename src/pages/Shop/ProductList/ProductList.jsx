@@ -36,17 +36,7 @@ const ProductList = () => {
 
       <Grid>
         {productList.map((productList, idx) => (
-          <Card
-            key={idx}
-            id={productList.product_id}
-            productName={productList.product_name}
-            price={Math.floor(productList.product_buying_price)
-              .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            productImage={productList.image[0]}
-            designerName={productList.author_name}
-            priceStatus={productList.product_buying_price_name}
-          />
+          <Card key={idx} productList={productList} />
         ))}
       </Grid>
     </div>

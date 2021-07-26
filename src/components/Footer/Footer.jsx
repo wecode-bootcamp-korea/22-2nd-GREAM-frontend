@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export default function Footer() {
+const Footer = () => {
   return (
     <Wrapper>
       <Top>
@@ -63,50 +63,64 @@ export default function Footer() {
       </Bottom>
     </Wrapper>
   );
-}
+};
 
 const Wrapper = styled.footer`
+  position: relative;
+  bottom: 0;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  background-color: white;
   padding: 32px;
 `;
+
 const Top = styled.section`
   flex: 0 0 30vh;
   display: flex;
 `;
+
 const Bottom = styled.section`
   flex: 0 0 20vh;
   padding-top: 32px;
   border-top: 1px solid ${props => props.theme.subFontColor};
 `;
+
 const Left = styled.div`
   flex: 0 0 20vw;
 `;
+
 const Center = styled.div`
   flex: 0 0 45vw;
 `;
+
 const Right = styled.div`
   flex: 0 0 30vw;
   min-width: 289px;
 `;
+
 const Title = styled.h1`
   padding-bottom: 22px;
 `;
+
 const ListContainer = styled.ul``;
 const List = styled.li`
   margin-bottom: 18px;
   color: #bcbcbc;
   font-size: 14px;
 `;
+
 const Info = styled.p`
   margin-bottom: 6px;
   color: #bcbcbc;
   font-size: 14px;
 `;
+
 const InfoBlack = styled(Info)`
   margin: 12px 0 16px 0;
   color: ${props => props.theme.fontColor};
 `;
+
 const Button = styled.button`
   padding: 10px;
   color: white;
@@ -114,40 +128,49 @@ const Button = styled.button`
   border: 1px solid ${props => props.theme.fontColor};
   background-color: ${props => props.theme.fontColor};
 `;
+
 const TopInBottom = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+
 const CenterInBottom = styled.div`
   padding-bottom: 16px;
   padding-left: 5px;
 `;
+
 const BottomInBottom = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
 `;
+
 const LinkGroup = styled.div`
   flex: 0 0 70vw;
   margin-bottom: 16px;
 `;
+
 const LinkButton = styled.button`
   ${props => props.theme.resetBtn}
 `;
+
 const Icons = styled.div`
   flex: 0 0 12vw;
   display: flex;
   justify-content: space-around;
   max-width: 112px;
 `;
+
 const IconButton = styled.button`
   ${props => props.theme.resetBtn}
   font-size: 22px;
 `;
+
 const SmallInfo = styled(Info)`
   padding-left: 5px;
   font-size: 13px;
 `;
+
 const Copyright = styled(SmallInfo)`
   flex: 1 0 26vw;
   text-align: right;
@@ -161,3 +184,5 @@ const USERSUPPORT = [
   '패널티 정책',
   '판매자 방문접수',
 ];
+
+export default Footer;
