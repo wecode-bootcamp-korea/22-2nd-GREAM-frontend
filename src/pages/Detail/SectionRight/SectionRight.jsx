@@ -10,15 +10,12 @@ import Modal from './Modal/Modal';
 const SectionRight = () => {
   const [openModal, setOpenModal] = useState(false);
   const [modalTabId, setModalTabId] = useState(1);
-
   const getModalTabIdState = id => {
     setModalTabId(id);
   };
-
   const getModalState = boolean => {
     setOpenModal(boolean);
   };
-
   return (
     <Wrapper>
       <InfoHeader />
@@ -49,12 +46,6 @@ const Wrapper = styled.section`
   min-width: 390px;
   height: 100vh;
   padding: 16px 16px 16px 0;
-  overflow-y: auto;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
   @media ${({ theme }) => theme.query.desktop} {
     max-width: 516px;
   }

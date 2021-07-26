@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import SectionLeft from './SectionLeft/SectionLeft';
 import SectionRight from './SectionRight/SectionRight';
 
-const Detail = () => {
+const Detail = ({ productList }) => {
   return (
     <Wrapper>
       <SectionLeft />
@@ -15,7 +15,6 @@ const Detail = () => {
 const Wrapper = styled.main`
   ${props => props.theme.setFlex('center', 'flex-start')};
   margin: 0 auto;
-  overflow: hidden;
 `;
 
 export default Detail;

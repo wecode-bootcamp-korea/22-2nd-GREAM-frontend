@@ -2,27 +2,29 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router';
 
-const Card = ({
-  productImage,
-  productName,
-  designerName,
-  price,
-  priceStatus,
-  id,
-}) => {
+const Card = ({ productList }) => {
+  const {
+    product_name,
+    image,
+    author_name,
+    product_id,
+    product_buying_price,
+    product_buying_price_name,
+  } = productList;
   const history = useHistory();
-
   const redirect = () => {
-    history.push(`/detail/${id}`);
+    history.push(`/detail/${product_id}`);
   };
 
   const [isClicked, setIsClicked] = useState(false);
+  const mutatePrice = Math.floor(product_buying_price).toLocaleString();
+
   return (
     <CardContainer>
-      <Image onClick={redirect} productImage={productImage} />
+      <Image onClick={redirect} productImage={image} />
       <InfoBox>
         <BookMark>
-          <p>{productName}</p>
+          <p>{product_name}</p>
           <span onClick={() => setIsClicked(!isClicked)}>
             <BookMarkLogo
               className="far fa-bookmark"
@@ -34,9 +36,9 @@ const Card = ({
             ></BookMarkLogo>
           </span>
         </BookMark>
-        <Designer>{designerName}</Designer>
+        <Designer>{author_name}</Designer>
         <PosterPrice>
-          {price}원<div>{priceStatus}</div>
+          {mutatePrice}원<div>{product_buying_price_name}</div>
         </PosterPrice>
       </InfoBox>
     </CardContainer>
