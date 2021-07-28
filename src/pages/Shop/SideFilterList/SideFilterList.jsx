@@ -1,31 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import SideFilterBox from './SideFilterBox/SideFilterBox';
-import { PRODUCTS_API } from '../../../config';
 
-const SideFilterList = () => {
-  const [filterList, setFilterList] = useState([]);
-  useEffect(() => {
-    getFilterList();
-  }, []);
-
-  const getFilterList = () => {
-    fetch('/data/filter.json')
-      // fetch(`${PRODUCTS_API}/category`)
-      .then(res => res.json())
-      .then(data => {
-        setFilterList(data.results);
-      });
-  };
-
+const SideFilterList = ({ filterList, getCategory, removeSelected }) => {
   return (
     <Container>
       <Title>필터</Title>
       {filterList.map((filterList, idx) => (
         <SideFilterBox
           key={idx}
-          categoryName={filterList.category_name}
-          optionList={filterList.option}
+          sideFilter={filterList}
+          parentIdx={idx}
+          getCategory={getCategory}
+          removeSelected={removeSelected}
         />
       ))}
     </Container>

@@ -52,7 +52,6 @@ export default function SignUp() {
       .then(response => response.json())
       .then(result => {
         //임의로적음
-        console.log(result.message);
         if (result.message === 'SUCCESS') {
           alert('회원가입이 되었습니다');
         } else {

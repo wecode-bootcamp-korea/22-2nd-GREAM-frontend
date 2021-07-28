@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router';
-
 const Card = ({ productList }) => {
   const {
     product_name,
     image,
     author_name,
     product_id,
-    product_buying_price,
-    product_buying_price_name,
+    product_price,
+    sort_name,
   } = productList;
   const history = useHistory();
   const redirect = () => {
@@ -17,7 +16,7 @@ const Card = ({ productList }) => {
   };
 
   const [isClicked, setIsClicked] = useState(false);
-  const mutatePrice = Math.floor(product_buying_price).toLocaleString();
+  const mutatePrice = Math.floor(product_price).toLocaleString();
 
   return (
     <CardContainer>
@@ -38,17 +37,15 @@ const Card = ({ productList }) => {
         </BookMark>
         <Designer>{author_name}</Designer>
         <PosterPrice>
-          {mutatePrice}원<div>{product_buying_price_name}</div>
+          {mutatePrice}원<div>{sort_name}</div>
         </PosterPrice>
       </InfoBox>
     </CardContainer>
   );
 };
-
 const BookMarkLogo = styled.i`
   display: ${props => (props.clicked ? 'block' : 'none')};
 `;
-
 const CardContainer = styled.div`
   ${props => props.theme.setFlex('normal', 'center')}
   flex-direction: column;
@@ -59,7 +56,6 @@ const CardContainer = styled.div`
   background-color: #ffffff;
   cursor: pointer;
 `;
-
 const Image = styled.img.attrs(props => ({
   src: props.productImage,
   alt: 'poster',
@@ -68,16 +64,13 @@ const Image = styled.img.attrs(props => ({
   height: 100%;
   border-radius: 10px;
 `;
-
 const InfoBox = styled.div`
   width: 100%;
   padding-top: 12px;
 `;
-
 const BookMark = styled.div`
   ${props => props.theme.setFlex('space-between', 'center')}
   height: 20px;
-
   p {
     width: 200px;
     white-space: nowrap;
@@ -85,7 +78,6 @@ const BookMark = styled.div`
     text-overflow: ellipsis;
   }
 `;
-
 const Designer = styled.div`
   height: 36px;
   padding-top: 10px;
@@ -94,7 +86,6 @@ const Designer = styled.div`
 const PosterPrice = styled.div`
   font-size: 15px;
   font-weight: 700;
-
   div {
     margin-top: 3px;
     margin-left: 1px;
@@ -102,5 +93,4 @@ const PosterPrice = styled.div`
     font-weight: 400;
   }
 `;
-
 export default Card;
