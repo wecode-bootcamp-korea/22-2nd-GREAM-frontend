@@ -1,17 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Card from './Card/Card';
-import SortList from './Sort/SortList';
 
-const ProductList = ({ productList }) => {
+const ProductList = ({ productList, sortDrop, productAmount, pageSwitch }) => {
+  // if (!productAmount) return '';
+  const productNum = productAmount / 20;
+  // console.log(`productNum`, productNum);
+  const makeBtn = productNum => {
+    let arrNum = [];
+
+    for (let i = 1; i <= productNum; i++) {
+      arrNum.push(i);
+    }
+    let arrBtn;
+    arrBtn = arrNum.map(count => <button onClick={pageSwitch}>{count}</button>);
+    return arrBtn;
+  };
   return (
     <div>
       <Sort>
         <Count>
-          <div>상품</div>
+          <div>상품 {productAmount}개</div>
         </Count>
         <Filter>
-          <SortList />
+          <select onChange={sortDrop}>
+            {SORT_PRICE.map(sort => (
+              <option value={sort.value} key={sort.id}>
+                {sort.sortName}
+              </option>
+            ))}
+          </select>
         </Filter>
       </Sort>
       <Grid>
@@ -19,6 +37,7 @@ const ProductList = ({ productList }) => {
           <Card key={idx} productList={productList} />
         ))}
       </Grid>
+      {makeBtn(productNum)}
     </div>
   );
 };
@@ -43,4 +62,21 @@ const Grid = styled.div`
   row-gap: 12px;
   column-gap: 12px;
 `;
+const Btn = styled.button``;
+
 export default ProductList;
+
+const SORT_PRICE = [
+  { id: 1, value: 'sort=buying-price-ascending', sortName: '즉시 구매가순' },
+  { id: 2, value: 'sort=selling-price-descending', sortName: '즉시 판매가순' },
+  {
+    id: 3,
+    value: 'sort=original-price-descending',
+    sortName: '발매가 내림차순',
+  },
+  {
+    id: 4,
+    value: 'sort=original-price-ascending',
+    sortName: '발매가 오름차순',
+  },
+];

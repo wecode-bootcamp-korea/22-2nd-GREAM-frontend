@@ -1,34 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-const Category = () => {
-  const [bestList, setBestList] = useState([]);
+const Category = ({ bestAuthor }) => {
+  // const [bestAuthor, setBestList] = useState([]);
 
-  useEffect(() => {
-    getBestList();
-  }, []);
+  // useEffect(() => {
+  //   getBestList();
+  // }, []);
 
-  const getBestList = () => {
-    fetch('/data/best.json')
-      .then(res => res.json())
-      .then(data => {
-        setBestList(data.bestDesigner);
-      });
-  };
+  // const getBestList = () => {
+  //   fetch('/data/best.json')
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       setBestList(data.bestDesigner);
+  //     });
+  // };
 
   return (
-    <>
-      <CategoryWrapper>
-        <Box>
-          <i class="fas fa-list-ol"></i>
+    <CategoryWrapper>
+      <Box>
+        <i class="fas fa-list-ol"></i>
+      </Box>
+      {bestAuthor.map((bestAuthor, idx) => (
+        <Box key={idx} id={bestAuthor.author_id}>
+          {bestAuthor.top_author}
         </Box>
-        {bestList.map((bestList, idx) => (
-          <Box key={idx} id={bestList.id}>
-            {bestList.name}
-          </Box>
-        ))}
-      </CategoryWrapper>
-    </>
+      ))}
+    </CategoryWrapper>
   );
 };
 

@@ -8,10 +8,10 @@ const DropDownFilter = ({
   id,
   categoryName,
   removeSelected,
+  resetPage,
 }) => {
   const categoryFilterHandler = e => {
-    console.log(`e`, e);
-    const checked = e.target.checked;
+    const { checked } = e.target;
     if (checked) getCategory(id, categoryName);
     else if (!checked) removeSelected(id, categoryName);
   };
@@ -20,7 +20,8 @@ const DropDownFilter = ({
     <Drop>
       <div>
         <Checkbox
-          onClick={e => categoryFilterHandler(e)}
+          onClick={categoryFilterHandler}
+          onChange={resetPage}
           inputProps={{ 'aria-label': 'uncontrolled-checkbox' }}
         />
       </div>

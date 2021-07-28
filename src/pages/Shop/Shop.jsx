@@ -1,30 +1,68 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router';
 import styled from 'styled-components';
 
 import Category from './Category/Category';
 import ShopHeader from './ShopHeader/ShopHeader';
 import SideFilterList from './SideFilterList/SideFilterList';
 import ProductList from './ProductList/ProductList';
-import { PRODUCTS_API } from '../../config';
-import { PRODUCTS_CATEGORY_API } from '../../config';
+import { PRODUCTS_API, PRODUCTS_CATEGORY_API, BEST_AUTHOR } from '../../config';
 
 const Shop = () => {
+  const [productAmount, setProductAmount] = useState('');
   const [productList, setProductList] = useState([]);
   const [filterList, setFilterList] = useState([]);
   const [queryState, setQueryState] = useState([]);
+  const [bestAuthor, setBestAuthor] = useState([]);
+  const [sortList, setSortList] = useState('');
+  const [pagination, setPagination] = useState('0');
+  const history = useHistory();
 
+  const resetPage = () => {
+    setPagination('0');
+  };
+
+  // console.log(`productAmount`, productAmount);
+  console.log(`queryState`, queryState);
   useEffect(() => {
-    fetch(`${PRODUCTS_API}?${addQuery}`)
+    const addQuery = queryState.map(state => makeQuery(state)).join('');
+    // console.log(`pagination`, pagination);
+
+    fetch(
+      `${PRODUCTS_API}?${addQuery}&${sortList}&offset=${pagination}&limit=20`
+    )
       // fetch(`${PRODUCTS_API}?author=1`)
       .then(res => res.json())
       .then(data => {
+        setProductAmount(data.product_count);
         setProductList(data.results);
       });
-  }, [queryState]);
-
+  }, [queryState, sortList, pagination]);
+  //?limit=20&offset=0
   useEffect(() => {
+    fetch(`${BEST_AUTHOR}`)
+      .then(res => res.json())
+      .then(data => {
+        setBestAuthor(data.results);
+      });
     getFilterList();
   }, []);
+
+  const sortDrop = e => {
+    setSortList(e.target.value);
+  };
+
+  const pageSwitch = e => {
+    setPagination((e.target.innerHTML - 1) * 20);
+    // history.push(`?offset=${pagination}&limit=20`);
+    // history.push(`&offset=${pagination}&limit=20`);
+  };
+  useEffect(() => {
+    history.push(`?offset=${pagination}&limit=20`);
+  }, [pagination]);
+  //  const redirect = () => {
+  //   history.push(`/detail/${product_id}`);
+  // };
 
   const getFilterList = (id, categoryName) => {
     // fetch('/data/filter.json')
@@ -43,19 +81,19 @@ const Shop = () => {
 
   const makeQuery = agu => {
     if (queryState !== undefined) {
-      return agu.id.reduce((acc, cv) => {
-        if (!acc && cv) {
-          return acc + agu.category_name + '=' + cv;
+      return agu.id.reduce((accumulator, currentValue) => {
+        if (!accumulator && currentValue) {
+          return accumulator + agu.category_name + '=' + currentValue;
         }
-        if (acc) {
-          return acc + '&' + agu.category_name + '=' + cv;
+        if (accumulator) {
+          return (
+            accumulator + '&' + agu.category_name + '=' + currentValue + '&'
+          );
         }
-        return acc;
+        return accumulator;
       }, '');
     }
   };
-
-  const addQuery = queryState.map(state => makeQuery(state)).join('');
 
   const prevId = categoryName => {
     const preId = queryState.filter(
@@ -74,17 +112,17 @@ const Shop = () => {
     );
   };
 
-  const removeSelected = (qeuryId, categoryName) => {
+  const removeSelected = (queryId, categoryName) => {
     const selectCategory = queryState.filter(
-      queryState => queryState.category_name === categoryName
+      filteringQueryState => filteringQueryState.category_name === categoryName
     );
     const removeChoosen = selectCategory[0].id.splice(
-      selectCategory[0].id.indexOf(qeuryId),
+      selectCategory[0].id.indexOf(queryId),
       1
     );
     setQueryState(
       queryState.map(state =>
-        state.id === qeuryId
+        state.id === queryId
           ? { ...state, selected: [...removeChoosen] }
           : state
       )
@@ -101,15 +139,21 @@ const Shop = () => {
     <Container>
       <ShopHeaderFix>
         <ShopHeader />
-        <Category />
+        <Category bestAuthor={bestAuthor} />
       </ShopHeaderFix>
       <ProductBox>
         <SideFilterList
           filterList={filterList}
           getCategory={getCategory}
           removeSelected={removeSelected}
+          resetPage={resetPage}
         />
-        <ProductList productList={productList} />
+        <ProductList
+          productList={productList}
+          sortDrop={sortDrop}
+          pageSwitch={pageSwitch}
+          productAmount={productAmount}
+        />
       </ProductBox>
     </Container>
   );

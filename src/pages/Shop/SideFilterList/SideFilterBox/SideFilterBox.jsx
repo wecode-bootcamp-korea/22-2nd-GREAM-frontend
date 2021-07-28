@@ -7,6 +7,7 @@ const SideFilterBox = ({
   parentIdx,
   getCategory,
   removeSelected,
+  resetPage,
 }) => {
   const { category_name_kr, category_name, option, getFilterList } = sideFilter;
 
@@ -38,6 +39,7 @@ const SideFilterBox = ({
             getFilterList={getFilterList}
             getCategory={getCategory}
             removeSelected={removeSelected}
+            resetPage={resetPage}
           />
         ))}
       </Drop>
