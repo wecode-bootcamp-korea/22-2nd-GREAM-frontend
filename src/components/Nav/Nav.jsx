@@ -1,7 +1,10 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
-export default function Nav() {
+const Nav = () => {
+  const history = useHistory();
+
   return (
     <NavBox>
       <UpperNav>
@@ -11,8 +14,7 @@ export default function Nav() {
         <Login>로그인</Login>
       </UpperNav>
       <BottomNav>
-        <div>GREAM</div>
-        <div></div>
+        <Button onClick={() => history.push('/')}>GREAM</Button>
         <LeftMenuBox>
           <GoToStyle>STYLE</GoToStyle>
           <GoToShop>SHOP</GoToShop>
@@ -24,12 +26,13 @@ export default function Nav() {
       </BottomNav>
     </NavBox>
   );
-}
+};
 
 const NavBox = styled.div`
   position: fixed;
   top: 0;
   width: 100%;
+  z-index: 9999;
 `;
 const UpperNav = styled.div`
   display: flex;
@@ -38,6 +41,13 @@ const UpperNav = styled.div`
   padding-right: 65px;
   height: 30px;
   background-color: white;
+`;
+
+const Button = styled.button`
+  ${({ theme }) => theme.resetBtn}
+  font-size: 32px;
+  font-weight: 500;
+  font-style: italic;
 `;
 
 const GoToCS = styled.div`
@@ -112,3 +122,5 @@ const Search = styled.div`
   margin-left: 20px;
   margin-right: 20px;
 `;
+
+export default Nav;

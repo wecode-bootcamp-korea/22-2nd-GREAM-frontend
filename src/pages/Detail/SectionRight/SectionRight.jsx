@@ -44,7 +44,6 @@ const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   min-width: 390px;
-  height: 100vh;
   padding: 16px 16px 16px 0;
   @media ${({ theme }) => theme.query.desktop} {
     max-width: 516px;
