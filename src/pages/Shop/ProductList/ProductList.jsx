@@ -3,7 +3,22 @@ import styled from 'styled-components';
 import Card from './Card/Card';
 import SortList from './Sort/SortList';
 
-const ProductList = ({ productList }) => {
+const SORT_PRICE = [
+  { id: 1, value: 'sort=buying-price-ascending', sortName: '즉시 구매가순' },
+  { id: 2, value: 'sort=selling-price-descending', sortName: '즉시 판매가순' },
+  {
+    id: 3,
+    value: 'sort=original-price-descending',
+    sortName: '발매가 내림차순',
+  },
+  {
+    id: 4,
+    value: 'sort=original-price-ascending',
+    sortName: '발매가 오름차순',
+  },
+];
+
+const ProductList = ({ productList, sortDrop }) => {
   return (
     <div>
       <Sort>
@@ -11,7 +26,13 @@ const ProductList = ({ productList }) => {
           <div>상품</div>
         </Count>
         <Filter>
-          <SortList />
+          <DropDown onChange={sortDrop}>
+            {SORT_PRICE.map(sort => (
+              <Option value={sort.value} key={sort.id}>
+                {sort.sortName}
+              </Option>
+            ))}
+          </DropDown>
         </Filter>
       </Sort>
       <Grid>
@@ -43,4 +64,7 @@ const Grid = styled.div`
   row-gap: 12px;
   column-gap: 12px;
 `;
+const DropDown = styled.select``;
+
+const Option = styled.option``;
 export default ProductList;

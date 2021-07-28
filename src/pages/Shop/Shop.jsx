@@ -12,15 +12,22 @@ const Shop = () => {
   const [productList, setProductList] = useState([]);
   const [filterList, setFilterList] = useState([]);
   const [queryState, setQueryState] = useState([]);
+  const [sortList, setSortList] = useState([]);
+
+  const sortDrop = e => {
+    setSortList(e.target.value);
+  };
+
+  console.log(`sortList`, `${sortList}`);
 
   useEffect(() => {
-    fetch(`${PRODUCTS_API}?${addQuery}`)
+    fetch(`${PRODUCTS_API}?${addQuery}&${sortList}`)
       // fetch(`${PRODUCTS_API}?author=1`)
       .then(res => res.json())
       .then(data => {
         setProductList(data.results);
       });
-  }, [queryState]);
+  }, [queryState, sortList]);
 
   useEffect(() => {
     getFilterList();
@@ -109,7 +116,7 @@ const Shop = () => {
           getCategory={getCategory}
           removeSelected={removeSelected}
         />
-        <ProductList productList={productList} />
+        <ProductList productList={productList} sortDrop={sortDrop} />
       </ProductBox>
     </Container>
   );
