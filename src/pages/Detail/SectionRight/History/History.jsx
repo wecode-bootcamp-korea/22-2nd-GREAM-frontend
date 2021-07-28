@@ -15,7 +15,7 @@ const History = ({ getModalState, getModalTabIdState }) => {
     <Wrapper>
       <Title>입찰 내역</Title>
       <Tabs>
-        {BUTTONTITLE.map(({ id, title }) => {
+        {TABTITLE.map(({ id, title }) => {
           return (
             <Tab
               active={id === historyTabId}
@@ -117,7 +117,7 @@ const TableWrapper = styled.div`
   }
 `;
 
-const BUTTONTITLE = [
+const TABTITLE = [
   { id: 1, title: '판매 입찰' },
   { id: 2, title: '구매 입찰' },
 ];

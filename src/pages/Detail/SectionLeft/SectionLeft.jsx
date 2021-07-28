@@ -26,9 +26,11 @@ const Wrapper = styled.section`
   flex: 0 0 45vw;
   flex-direction: column;
   min-width: 390px;
-  height: 220vh;
+  min-height: 220vh;
   margin: 0 42px;
   position: relative;
+  z-index: 9;
+
   @media (min-width: 1290px) {
     max-width: 570px;
   }
@@ -36,7 +38,7 @@ const Wrapper = styled.section`
 
 const Fix = styled.div`
   position: sticky;
-  top: 0;
+  top: 100px;
   width: 100%;
   max-width: 540px;
   @media (min-width: 1290px) {

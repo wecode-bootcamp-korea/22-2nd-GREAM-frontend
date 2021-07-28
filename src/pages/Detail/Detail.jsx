@@ -14,7 +14,7 @@ const Detail = ({ productList }) => {
 
 const Wrapper = styled.main`
   ${props => props.theme.setFlex('center', 'flex-start')};
-  margin: 0 auto;
+  margin: 100px auto;
 `;
 
 export default Detail;

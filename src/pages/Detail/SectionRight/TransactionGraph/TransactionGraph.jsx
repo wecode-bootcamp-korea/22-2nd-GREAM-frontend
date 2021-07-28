@@ -1,19 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Title from '../Title/Title';
 import TableComponent from '../TableComponent/TableComponent';
 import More from '../More/More';
+import Graph from './Graph/Graph';
 
 const TransactionGraph = ({ getModalState, getModalTabIdState }) => {
+  const [graphTabId, setGraphTabId] = useState(1);
+  const changeTable = id => {
+    setGraphTabId(id);
+  };
+
   return (
     <Wrapper>
       <Title>체결 거래</Title>
       <Tabs>
-        <Tab active>1주</Tab>
-        <Tab>1개월</Tab>
-        <Tab>3개월</Tab>
+        {TABTITLE.map(({ id, title }) => {
+          return (
+            <Tab
+              active={id === graphTabId}
+              key={id}
+              onClick={() => changeTable(id)}
+            >
+              {title}
+            </Tab>
+          );
+        })}
       </Tabs>
-      <Graph>Graph</Graph>
+      <GraphContainer graphTabId={graphTabId}>
+        <Graph />
+        <Graph />
+        <Graph />
+      </GraphContainer>
       <TableComponent thOne="거래가" thSecond="거래일">
         <tr>
           <td>266,000</td>
@@ -44,7 +62,11 @@ const TransactionGraph = ({ getModalState, getModalTabIdState }) => {
 
 const Wrapper = styled.section`
   flex: 0 0 40%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0fr 0fr 1fr 1fr;
   margin-top: 52px;
+  z-index: -1;
 `;
 
 export const Tabs = styled.div`
@@ -65,6 +87,25 @@ export const Tab = styled.button`
   background-color: ${props => (props.active ? '#ffffff' : 'transparent')};
 `;
 
-const Graph = styled.div``;
+const GraphContainer = styled.div`
+  position: relative;
+  & > div:nth-child(1) {
+    display: ${props => (props.graphTabId === 1 ? 'block' : 'none')};
+  }
+
+  & > div:nth-child(2) {
+    display: ${props => (props.graphTabId === 2 ? 'block' : 'none')};
+  }
+
+  & > div:nth-child(3) {
+    display: ${props => (props.graphTabId === 3 ? 'block' : 'none')};
+  }
+`;
+
+const TABTITLE = [
+  { id: 1, title: '1주' },
+  { id: 2, title: '1개월' },
+  { id: 3, title: '3개월' },
+];
 
 export default TransactionGraph;
