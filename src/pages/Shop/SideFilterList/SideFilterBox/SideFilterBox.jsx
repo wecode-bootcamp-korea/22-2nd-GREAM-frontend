@@ -2,23 +2,43 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import DropDownFilter from '../DropDownFilter/DropDownFilter';
 
-const SideFilterBox = props => {
+const SideFilterBox = ({
+  sideFilter,
+  parentIdx,
+  getCategory,
+  removeSelected,
+}) => {
+  const { category_name_kr, category_name, option, getFilterList } = sideFilter;
+
   const [isClicked, setIsClicked] = useState(false);
+  const [category, setCategory] = useState('');
+
+  const remCategory = () => {
+    setCategory(category_name);
+  };
 
   return (
     <>
       <Box onClick={() => setIsClicked(!isClicked)}>
         <Section>
-          <Category>{props.categoryName}별</Category>
-          <All>모든 {props.categoryName}</All>
+          <Category>{category_name_kr}별</Category>
+          <All>모든 {category_name_kr}</All>
         </Section>
         <Icon>
           <i className="fas fa-plus"></i>
         </Icon>
       </Box>
-      <Drop isClicked={isClicked}>
-        {props.optionList.map((optionList, idx) => (
-          <DropDownFilter key={idx} name={optionList.name} />
+      <Drop onClick={remCategory} isClicked={isClicked}>
+        {option.map((option, idx) => (
+          <DropDownFilter
+            key={idx}
+            name={option.name}
+            id={option.id}
+            categoryName={category_name}
+            getFilterList={getFilterList}
+            getCategory={getCategory}
+            removeSelected={removeSelected}
+          />
         ))}
       </Drop>
     </>
