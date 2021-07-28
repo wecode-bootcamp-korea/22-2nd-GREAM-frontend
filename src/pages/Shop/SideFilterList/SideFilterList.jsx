@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import SideFilterBox from './SideFilterBox/SideFilterBox';
 
-const SideFilterList = ({ filterList, getCategory, removeSelected }) => {
+const SideFilterList = ({
+  filterList,
+  getCategory,
+  removeSelected,
+  resetPage,
+}) => {
   return (
     <Container>
       <Title>필터</Title>
@@ -13,6 +18,7 @@ const SideFilterList = ({ filterList, getCategory, removeSelected }) => {
           parentIdx={idx}
           getCategory={getCategory}
           removeSelected={removeSelected}
+          resetPage={resetPage}
         />
       ))}
     </Container>
