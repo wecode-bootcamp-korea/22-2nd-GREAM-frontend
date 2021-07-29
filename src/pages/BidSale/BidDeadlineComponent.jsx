@@ -12,19 +12,14 @@ export default function BidDeadlineComponent({
     setButtonDate(name);
     setButtonId(id);
   };
-  //console.log('buttondate 스테이트확인', buttonDate);
-
-  // var date = new Date();
-
-  // date.setDate(date.getDate() + parseInt(buttonDate)); //현재날짜에서 - 일 후
 
   var date = new Date();
   date.setDate(date.getDate() + parseInt(buttonDate));
-  console.log('date', date);
+
   var month = '' + (date.getMonth() + 1);
-  console.log('month', month);
+
   var day = '' + date.getDate();
-  console.log('day', day);
+
   var year = date.getFullYear();
 
   if (month.length < 2) month = '0' + month;

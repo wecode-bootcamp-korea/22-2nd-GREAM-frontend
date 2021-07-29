@@ -1,4 +1,13 @@
-const BASE_URL = 'http://10.58.4.218:8000';
+const BASE_URL = 'http://18.222.211.21:8000';
 export const PRODUCTS_API = `${BASE_URL}/products`;
 export const PRODUCTS_CATEGORY_API = `${BASE_URL}/products/category`;
 export const BEST_AUTHOR = `${BASE_URL}/products/bestauthor`;
+export const BID_PERCHASE = `${BASE_URL}/orders/bidding?type=buy`;
+export const IMMEDIATE_PERCHASE = `${BASE_URL}/orders/contract?type=buy`;
+export const USER_INFO = `${BASE_URL}/users/info`;
+export const PRODUCT_INFO = `${BASE_URL}/products`;
+export const BID_SALE = `${BASE_URL}/orders/bidding?type=sell`;
+export const IMMEDIATE_SALE = `${BASE_URL}/orders/contract?type=sell`;
+export const GENERAL_LOGIN = `${BASE_URL}/users/signin`;
+export const KAKAO_LOGIN = `${BASE_URL}/users/signin/kakao`;
+export const SIGN_UP = `${BASE_URL}/users/signup`;

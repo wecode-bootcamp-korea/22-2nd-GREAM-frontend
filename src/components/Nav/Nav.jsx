@@ -1,9 +1,19 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { LocalConvenienceStoreOutlined } from '@material-ui/icons';
+import React, { useState, useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Nav = () => {
+  const [isLogin, setIsLogin] = useState(false);
   const { push } = useHistory();
+  const location = useLocation();
+
+  useEffect(() => {
+    const atLestOneTokenValid =
+      localStorage.getItem('login_kakao_token') !== null ||
+      localStorage.getItem('login_token') !== null;
+    setIsLogin(atLestOneTokenValid);
+  }, [location]);
 
   return (
     <NavBox>
@@ -11,7 +21,18 @@ const Nav = () => {
         <GoToCS>고객센터</GoToCS>
         <GoToCart>관심상품</GoToCart>
         <GoToMyPage>마이페이지</GoToMyPage>
-        <Login onClick={() => push('/login')}>로그인</Login>
+        {isLogin ? (
+          <Login
+            onClick={() => {
+              localStorage.clear();
+              setIsLogin(false);
+            }}
+          >
+            로그아웃
+          </Login>
+        ) : (
+          <Login onClick={() => push('/login')}>로그인</Login>
+        )}
       </UpperNav>
       <BottomNav>
         <Home href="/">GREAM</Home>
