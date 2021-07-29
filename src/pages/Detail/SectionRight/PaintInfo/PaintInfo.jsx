@@ -2,26 +2,30 @@ import React from 'react';
 import styled from 'styled-components';
 import Title from '../Title/Title';
 
-const PaintInfo = () => {
+const PaintInfo = ({ product_info, mutatePrice }) => {
+  if (!product_info) return <span>Loading...</span>;
+
+  const { model_number, author, color, original_price } = product_info?.[0];
+
   return (
     <Wrapper>
       <Title>상품 정보</Title>
       <InfoUl>
         <InfoLi>
           <Info color="#959595">작가</Info>
-          <Info>Nicky</Info>
+          <Info>{author}</Info>
         </InfoLi>
         <InfoLi>
           <Info color="#959595">모델번호</Info>
-          <Info>555088-321</Info>
+          <Info>{model_number}</Info>
         </InfoLi>
         <InfoLi>
           <Info color="#959595">대표색상</Info>
-          <Info>Red</Info>
+          <Info>{color?.map(color => color)}</Info>
         </InfoLi>
         <InfoLi>
           <Info color="#959595">발매가</Info>
-          <Info>199,000원</Info>
+          <Info>{mutatePrice(original_price)}원</Info>
         </InfoLi>
       </InfoUl>
       <Notion>

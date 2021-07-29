@@ -1,26 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Title from '../Title/Title';
 import TableComponent from '../TableComponent/TableComponent';
 import More from '../More/More';
 import Graph from './Graph/Graph';
+import { PRODUCTS_API } from '../../../../config';
 
-const TransactionGraph = ({ getModalState, getModalTabIdState }) => {
+const TransactionGraph = ({
+  getModalState,
+  getModalTabIdState,
+  mutatePrice,
+}) => {
   const [graphTabId, setGraphTabId] = useState(1);
-  const changeTable = id => {
-    setGraphTabId(id);
+  const [graphData, setGraphData] = useState({});
+  const { id } = useParams();
+
+  const fetchGraphData = (value = '') => {
+    fetch(`${PRODUCTS_API}/${id}${makeGraphQuery(value)}`)
+      .then(res => res.json())
+      .then(data => setGraphData(data));
+  };
+
+  useEffect(() => {
+    fetchGraphData();
+  }, []);
+
+  const makeGraphQuery = value => {
+    return value ? `?contract_choice=${value}` : '';
+  };
+
+  const changeTable = tabId => {
+    setGraphTabId(tabId);
+    if (tabId === 1) {
+      fetchGraphData();
+    } else if (tabId === 2) {
+      fetchGraphData(`1m`);
+    } else if (tabId === 3) {
+      fetchGraphData(`3m`);
+    }
   };
 
   return (
     <Wrapper>
       <Title>체결 거래</Title>
       <Tabs>
-        {TABTITLE.map(({ id, title }) => {
+        {TABTITLE.map(({ tabId, title }) => {
           return (
             <Tab
-              active={id === graphTabId}
-              key={id}
-              onClick={() => changeTable(id)}
+              active={tabId === graphTabId}
+              key={tabId}
+              onClick={() => changeTable(tabId)}
             >
               {title}
             </Tab>
@@ -28,27 +58,21 @@ const TransactionGraph = ({ getModalState, getModalTabIdState }) => {
         })}
       </Tabs>
       <GraphContainer graphTabId={graphTabId}>
-        <Graph />
-        <Graph />
-        <Graph />
+        <Graph graphData={graphData} />
+        <Graph graphData={graphData} />
+        <Graph graphData={graphData} />
       </GraphContainer>
       <TableComponent thOne="거래가" thSecond="거래일">
-        <tr>
-          <td>266,000</td>
-          <td>21/7/21</td>
-        </tr>
-        <tr>
-          <td>266,000</td>
-          <td>21/7/21</td>
-        </tr>
-        <tr>
-          <td>266,000</td>
-          <td>21/7/21</td>
-        </tr>
-        <tr>
-          <td>266,000</td>
-          <td>21/7/21</td>
-        </tr>
+        {graphData.contract_all
+          ?.slice(0, 4)
+          .map(({ contract_date, contract_price }, idx) => {
+            return (
+              <tr key={idx}>
+                <td>{mutatePrice(contract_price)}</td>
+                <td>{contract_date}</td>
+              </tr>
+            );
+          })}
       </TableComponent>
       <More
         getModalState={getModalState}
@@ -66,7 +90,6 @@ const Wrapper = styled.section`
   grid-template-columns: 1fr;
   grid-template-rows: 0fr 0fr 1fr 1fr;
   margin-top: 52px;
-  z-index: -1;
 `;
 
 export const Tabs = styled.div`
@@ -89,6 +112,8 @@ export const Tab = styled.button`
 
 const GraphContainer = styled.div`
   position: relative;
+  margin-top: 18px;
+
   & > div:nth-child(1) {
     display: ${props => (props.graphTabId === 1 ? 'block' : 'none')};
   }
@@ -103,9 +128,9 @@ const GraphContainer = styled.div`
 `;
 
 const TABTITLE = [
-  { id: 1, title: '1주' },
-  { id: 2, title: '1개월' },
-  { id: 3, title: '3개월' },
+  { tabId: 1, title: '1주' },
+  { tabId: 2, title: '1개월' },
+  { tabId: 3, title: '3개월' },
 ];
 
 export default TransactionGraph;

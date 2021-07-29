@@ -2,11 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 import ButtonGroup from './ButtonGroup/ButtonGroup';
 
-const InfoHeader = () => {
+const InfoHeader = ({ mainInfo, mutatePrice }) => {
+  if (!mainInfo) return <span>Loading...</span>;
+
+  const { name, comparing_price, comparing_price_ratio, recent_price } =
+    mainInfo;
+
   return (
     <Header>
       <NameContainer>
-        <Name>(W) Jordan 1 Low White Wolf Grey</Name>
+        <Name>{name}</Name>
         <button>
           <i className="far fa-bookmark" />
         </button>
@@ -14,15 +19,20 @@ const InfoHeader = () => {
       <RecentContainer>
         <StaticTransaction>최근 거래가</StaticTransaction>
         <PriceContainer>
-          <Price>316,000원</Price>
-          <Rate>
-            <i className="fas fa-sort-down" />
-            {/* <i className="fas fa-sort-up" /> */}
-            <span>19,000원 (-5.7%)</span>
+          <Price>{mutatePrice(recent_price)}</Price>
+          <Rate checkedRatio={comparing_price_ratio > 0}>
+            {comparing_price_ratio > 0 ? (
+              <i className="fas fa-sort-up" />
+            ) : (
+              <i className="fas fa-sort-down" />
+            )}
+            <span>
+              {mutatePrice(comparing_price)}원 ({comparing_price_ratio}%)
+            </span>
           </Rate>
         </PriceContainer>
       </RecentContainer>
-      <ButtonGroup />
+      <ButtonGroup mainInfo={mainInfo} mutatePrice={mutatePrice} />
     </Header>
   );
 };
@@ -76,11 +86,13 @@ const Rate = styled.div`
   display: flex;
   font-size: 13px;
   margin-top: 8px;
-  color: ${props => props.theme.red};
+  color: ${({ checkedRatio, theme }) =>
+    checkedRatio ? theme.red : theme.green};
 
-  & > i {
+  i {
+    position: relative;
+    top: ${({ checkedRatio }) => (checkedRatio ? '2px' : '-2px')};
     margin-right: 6px;
-    line-height: 10px;
   }
 `;
 
