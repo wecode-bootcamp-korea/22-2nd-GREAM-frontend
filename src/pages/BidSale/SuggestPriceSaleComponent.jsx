@@ -5,10 +5,8 @@ export default function SuggestPricePerchaseComponent({
   suggestedPriceValue,
   setSuggestedPriceValue,
 }) {
-  //const [suggestedPriceValue, setSuggestedPriceValue] = useState('');
-
   const handleSuggestingPrice = event => {
-    setSuggestedPriceValue(event.target.value); // 10자리까지만 가능하도록 바꾸어야함, 엔터혹은 총결제금액을 클릭시 가격이 업데이트되도록해야?
+    setSuggestedPriceValue(event.target.value);
   };
 
   return (
@@ -16,7 +14,6 @@ export default function SuggestPricePerchaseComponent({
       <SuggestPriceSaleBox>
         <SuggestPriceTitle>판매 희망가</SuggestPriceTitle>
         <InputPriceBox>
-          {' '}
           <InputPrice
             className=""
             type="number"
@@ -41,8 +38,6 @@ export default function SuggestPricePerchaseComponent({
   );
 }
 const SuggestPriceSaleBox = styled.div`
-  //margin: 33px;
-  //display: none;
   margin-bottom: 10px;
   margin-top: 30px;
   padding: 0 35px;

@@ -3,6 +3,16 @@ import SuggestPricePerchaseComponent from './SuggestPricePerchaseComponent';
 import ImmediatePerchaseComponent from './ImmediatePerchaseComponent';
 import BidDeadlineComponent from './BidDeadlineComponent';
 import styled from 'styled-components';
+import { useLocation } from 'react-router';
+import { useHistory } from 'react-router-dom';
+
+import {
+  BID_PERCHASE,
+  IMMEDIATE_PERCHASE,
+  USER_INFO,
+  PRODUCT_INFO,
+  BID_SALE,
+} from '../../config';
 
 export default function Bid() {
   const [bidPerchase, setBidPerchase] = useState(true);
@@ -22,6 +32,12 @@ export default function Bid() {
 
   const [buyingBidId, setBuyingBidId] = useState('');
   const [sellingBidId, setSellingBidId] = useState('');
+
+  const [reRender, setRerender] = useState(false);
+
+  let history = useHistory();
+  const location = useLocation();
+  const item = location.state.id;
 
   const SelectBidPerchase = () => {
     if (bidPerchase) {
@@ -53,18 +69,27 @@ export default function Bid() {
       return;
     }
     //입찰 구매
-    fetch('http://18.222.211.21:8000/orders/bidding?type=buy', {
+    const token = localStorage.getItem('login_token');
+    fetch(`${BID_SALE}`, {
       method: 'POST',
+      headers: {
+        Authorization: token
+          ? token
+          : localStorage.getItem('kakao_login_token'),
+      },
       body: JSON.stringify({
-        product_id: 10,
+        product_id: item,
         expired_within_id: Number(buttonId),
         price: Number(suggestedPriceValue),
       }),
     })
       .then(response => response.json())
       .then(result => {
+        console.log(`result`, result);
         if (result.message === 'NEW_BID_CREATED') {
           alert('입찰 구매 신청이 완료되었습니다!');
+          setRerender(!reRender);
+          history.push('/');
         } else {
           alert('다시 시도해 주세요!');
         }
@@ -74,10 +99,16 @@ export default function Bid() {
 
   //즉시구매
   const submitImmediateBidPerchase = () => {
-    fetch('http://18.222.211.21:8000/orders/contract?type=buy', {
+    const token = localStorage.getItem('login_token');
+    fetch(`${IMMEDIATE_PERCHASE}`, {
       method: 'POST',
+      headers: {
+        Authorization: token
+          ? token
+          : localStorage.getItem('kakao_login_token'),
+      },
       body: JSON.stringify({
-        product_id: productId,
+        product_id: item,
         selling_bid_id: sellingBidId,
         buying_bid_id: '',
       }),
@@ -86,6 +117,7 @@ export default function Bid() {
       .then(result => {
         if (result.message === 'CONTRACT_SUCCESS') {
           alert('거래가 체결되었습니다!');
+          history.push('/');
         } else if (result.message === 'SELLING_BID_NOT_FOUND') {
           alert('이미 체결된 거래입니다!');
         }
@@ -94,8 +126,14 @@ export default function Bid() {
   };
   //유저 정보 / 상품 정보
   useEffect(() => {
-    fetch('http://18.222.211.21:8000/users/info', {
+    const token = localStorage.getItem('login_token');
+    fetch(`${USER_INFO}`, {
       method: 'GET',
+      headers: {
+        Authorization: token
+          ? token
+          : localStorage.getItem('kakao_login_token'),
+      },
     })
       .then(res => res.json())
       .then(data => {
@@ -103,20 +141,21 @@ export default function Bid() {
         setUserAddress(data.results.address);
       });
 
-    fetch('http://18.222.211.21:8000/products/80', {
+    fetch(`${PRODUCT_INFO}/${item}`, {
       method: 'GET',
     })
       .then(res => res.json())
       .then(data => {
-        setPosterName(data.main_info[0].name);
-        setPosterImage(data.main_info[0].image_url[1]);
-        setCurrentBuyingPrice(data.main_info[0].current_buying_price);
-        setCurrentSellingPrice(data.main_info[0].current_selling_price);
-        setProductId(data.product_info[0].model_number);
-        setBuyingBidId(data.main_info[0].oldest_buying_bidding_id);
-        setSellingBidId(data.main_info[0].oldest_selling_bidding_id);
+        console.log(`data`, data);
+        setPosterName(data.main_info.name);
+        setPosterImage(data.main_info.image_url[1]);
+        setCurrentBuyingPrice(data.main_info.current_buying_price);
+        setCurrentSellingPrice(data.main_info.current_selling_price);
+        setProductId(data.product_info.model_number);
+        setBuyingBidId(data.main_info.oldest_buying_bidding_id);
+        setSellingBidId(data.main_info.oldest_selling_bidding_id);
       });
-  }, []);
+  }, [reRender]);
 
   return (
     <BidMain>
@@ -160,7 +199,7 @@ export default function Bid() {
                 type="button"
                 onClick={ImmediatePerchase}
                 backgroundColor={onlyImmediatePerchase}
-                disabled={!currentBuyingPrice}
+                //disabled={!currentBuyingPrice}
               >
                 즉시 구매
               </ImmediatePerchaseButton>
@@ -195,7 +234,9 @@ export default function Bid() {
           <ShipmentAddressDetailBox>
             <ShipmentTitle>배송 주소</ShipmentTitle>
             <ShipmentReciever>{userName}</ShipmentReciever>
-            <div className="ShipmentAddress">{userAddress}</div>
+            <div className="ShipmentAddress">
+              충청남도 내포 신도시 00 아파트 --동 --호{' '}
+            </div>
           </ShipmentAddressDetailBox>
         </ShipmentInfo>
 
@@ -275,7 +316,6 @@ const BidDetail = styled.div`
   width: 100%;
 `;
 
-//피알올리기  - 이 부분 너비가 BidBox 범위를 넘어가는데 이유를 모르겠습니다
 const SuggestPrice = styled.div`
   display: flex;
   justify-content: center;
@@ -332,9 +372,7 @@ const BidPerchaseButton = styled.button`
   height: 40px;
   border-radius: 18px;
   background-color: ${props =>
-    props.backgroundColor
-      ? props.theme.red
-      : props.theme.cardBackground}; // 아예적용이 안되고 있는듯 ?
+    props.backgroundColor ? props.theme.red : props.theme.cardBackground};
   border: none;
   font-weight: ${props => (props.backgroundColor ? 'bold' : '')};
   color: ${props => (props.backgroundColor ? 'white' : 'black')};

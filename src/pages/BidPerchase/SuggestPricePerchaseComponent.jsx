@@ -38,8 +38,6 @@ export default function SuggestPricePerchaseComponent({
   );
 }
 const SuggestPricePerchaseBox = styled.div`
-  //margin: 33px;
-  //display: none;
   margin-bottom: 10px;
   margin-top: 30px;
   padding: 0 35px;

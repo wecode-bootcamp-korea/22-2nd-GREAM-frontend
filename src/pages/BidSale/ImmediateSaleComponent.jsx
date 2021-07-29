@@ -14,7 +14,6 @@ export default function ImmediatePerchaseComponent({
             <div> {Math.round(currentSellingPrice)}</div>
             <ConfirmPriceWon>원</ConfirmPriceWon>
           </ConfirmPrice>
-          {/* <InputPriceWon></InputPriceWon> */}
         </InputPriceBox>
       </ConfirmPriceSaleBox>
       <Payment>

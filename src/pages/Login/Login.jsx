@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
+import theme from '../../styles/theme';
+import { GENERAL_LOGIN, KAKAO_LOGIN } from '../../config';
 
 export default function Login() {
   const [emailValue, setEmailValue] = useState('');
@@ -26,6 +29,8 @@ export default function Login() {
     setIsPasswordValid(reg_pwd.test(passwordValue));
   };
 
+  let history = useHistory();
+
   const goToMain = e => {
     e.preventDefault();
 
@@ -33,8 +38,8 @@ export default function Login() {
       return;
     }
 
-    fetch(`http://10.58.0.234:8000/users/signin`, {
-      method: 'post',
+    fetch(`${GENERAL_LOGIN}`, {
+      method: 'POST',
       body: JSON.stringify({
         email: emailValue,
         password: passwordValue,
@@ -42,10 +47,11 @@ export default function Login() {
     })
       .then(response => response.json())
       .then(result => {
-        //임의로 작성
-        console.log(result.message);
+        console.log('백엔드로부터 받은 토큰', result);
         if (result.message === 'SUCCESS') {
-          localStorage.setItem('TOKEN', result.access_token);
+          localStorage.setItem('login_token', result.TOKEN);
+          alert('로그인 되었습니다!');
+          history.push('/');
         } else {
           alert('잘못된 정보입니다. 다시 입력해주세요!');
         }
@@ -56,7 +62,8 @@ export default function Login() {
     window.Kakao.Auth.login({
       success: function (response) {
         console.log(response);
-        fetch('http://10.58.4.170:8000/users/signin/kakao', {
+        //http://10.58.4.218:8000/users/signin/kakao
+        fetch(`${KAKAO_LOGIN}`, {
           method: 'GET',
           headers: {
             Authorization: response.access_token,
@@ -64,10 +71,12 @@ export default function Login() {
         })
           .then(result => result.json())
           .then(result => {
-            if (result.token) {
-              localStorage.setItem('login_token', result.token);
+            console.log(result);
+
+            if (result.TOKEN) {
+              localStorage.setItem('login_kakao_token', result.TOKEN);
               alert('로그인이 되었습니다!');
-              //history.push('/')
+              history.push('/');
             } else {
               alert('로그인 정보를 다시 확인해주세요');
             }
@@ -81,9 +90,7 @@ export default function Login() {
 
   return (
     <LoginForm onSubmit={goToMain}>
-      <div className="loginLogo">
-        <img className="logoImage" alt="gream logo" />
-      </div>
+      <LoginLogo>GREAM</LoginLogo>
       <div className="inputEmailBox">
         <InputTitle>이메일 주소</InputTitle>
         <InputEmail
@@ -121,7 +128,9 @@ export default function Login() {
         <KakaoLogin src="https://user-images.githubusercontent.com/70811550/126318637-aaa3db8c-bc8d-4b5d-b378-663d5f3cb51a.png" />
       </SocialLoginButton>
       <SignUpBox>
-        <SignupWithEmail>이메일로 회원가입</SignupWithEmail>
+        <SignupWithEmail onClick={() => history.push('/signup')}>
+          이메일로 회원가입
+        </SignupWithEmail>
         <CheckEmail>이메일 찾기</CheckEmail>
         <CheckPassword>비밀번호 찾기</CheckPassword>
       </SignUpBox>
@@ -201,7 +210,16 @@ const LoginForm = styled.form`
   flex-direction: column;
   ${({ theme }) => theme.setFlex('center', 'center')};
 
-  margin-top: 68px;
+  margin-top: 150px;
+  margin-bottom: 150px;
+`;
+
+const LoginLogo = styled.div`
+  margin-bottom: 40px;
+  ${({ theme }) => theme.resetBtn}
+  font-size: 50px;
+  font-weight: 500;
+  font-style: italic;
 `;
 
 const SignUpBox = styled.div`
@@ -214,6 +232,7 @@ const SignUpBox = styled.div`
 const SignupWithEmail = styled.div`
   text-align: left;
   padding-left: 20px;
+  cursor: pointer;
 `;
 
 const CheckEmail = styled.div`

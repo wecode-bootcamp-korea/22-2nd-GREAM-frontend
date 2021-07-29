@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
+import { SIGN_UP } from '../../config';
 
 export default function SignUp() {
   const [emailValue, setEmailValue] = useState('');
@@ -35,12 +37,13 @@ export default function SignUp() {
     setIsNameValid(reg_name);
   };
 
+  let history = useHistory();
   const goToMain = event => {
     event.preventDefault();
 
     if (!isAllSignUpValueValid) return;
 
-    fetch('http://10.58.0.234:8000/users/signup', {
+    fetch(`${SIGN_UP}`, {
       method: 'post',
       body: JSON.stringify({
         email: emailValue,
@@ -53,6 +56,7 @@ export default function SignUp() {
       .then(result => {
         if (result.message === 'SUCCESS') {
           alert('회원가입이 되었습니다');
+          history.push('/');
         } else {
           alert('이미 존재하는 회원정보입니다');
         }
@@ -134,7 +138,6 @@ const LoginTitle = styled.div`
 `;
 
 const InputTitle = styled.div`
-  //padding-left: 10px;
   text-align: left;
   font-size: 14px;
   font-weight: bold;
