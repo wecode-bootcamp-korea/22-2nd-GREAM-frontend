@@ -27,6 +27,7 @@ const Wrapper = styled.section`
   flex-direction: column;
   min-width: 390px;
   height: 220vh;
+  min-height: 220vh;
   margin: 0 42px;
   position: relative;
 
