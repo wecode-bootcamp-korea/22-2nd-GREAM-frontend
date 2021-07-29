@@ -21,7 +21,7 @@ const PaintInfo = ({ product_info, mutatePrice }) => {
         </InfoLi>
         <InfoLi>
           <Info color="#959595">대표색상</Info>
-          <Info>{color?.map(color => color)}</Info>
+          <Info>{color.join('/')}</Info>
         </InfoLi>
         <InfoLi>
           <Info color="#959595">발매가</Info>
