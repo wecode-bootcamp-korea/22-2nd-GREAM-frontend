@@ -14,7 +14,7 @@ const History = ({
 
   if (!bidding_detail) return <span>Loading...</span>;
 
-  const { buying_bidding, selling_bidding } = bidding_detail?.[0];
+  const { buying_bidding, selling_bidding } = bidding_detail;
 
   const changeTable = id => {
     setHistoryTabId(id);

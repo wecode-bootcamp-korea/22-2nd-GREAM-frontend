@@ -8,7 +8,7 @@ import { PRODUCTS_API } from '../../config';
 const Detail = () => {
   const { id } = useParams();
   const [detailData, setDetailData] = useState([]);
-  const mainInfo = detailData?.main_info?.[0];
+  const mainInfo = detailData?.main_info;
 
   const fetchDetailData = () => {
     fetch(`${PRODUCTS_API}/${id}`)
