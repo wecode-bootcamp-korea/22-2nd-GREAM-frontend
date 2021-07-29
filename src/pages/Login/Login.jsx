@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import theme from '../../styles/theme';
 
 export default function Login() {
   const [emailValue, setEmailValue] = useState('');
@@ -81,9 +82,7 @@ export default function Login() {
 
   return (
     <LoginForm onSubmit={goToMain}>
-      <div className="loginLogo">
-        <img className="logoImage" alt="gream logo" />
-      </div>
+      <LoginLogo>GREAM</LoginLogo>
       <div className="inputEmailBox">
         <InputTitle>이메일 주소</InputTitle>
         <InputEmail
@@ -202,6 +201,14 @@ const LoginForm = styled.form`
   ${({ theme }) => theme.setFlex('center', 'center')};
 
   margin-top: 68px;
+`;
+
+const LoginLogo = styled.div`
+  margin-bottom: 40px;
+  ${({ theme }) => theme.resetBtn}
+  font-size: 50px;
+  font-weight: 500;
+  font-style: italic;
 `;
 
 const SignUpBox = styled.div`
