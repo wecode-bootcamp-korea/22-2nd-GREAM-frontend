@@ -3,8 +3,6 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Nav = () => {
-  const history = useHistory();
-
   return (
     <NavBox>
       <UpperNav>
@@ -14,7 +12,7 @@ const Nav = () => {
         <Login>로그인</Login>
       </UpperNav>
       <BottomNav>
-        <Button onClick={() => history.push('/')}>GREAM</Button>
+        <Home href="/">GREAM</Home>
         <LeftMenuBox>
           <GoToStyle>STYLE</GoToStyle>
           <GoToShop>SHOP</GoToShop>
@@ -43,11 +41,16 @@ const UpperNav = styled.div`
   background-color: white;
 `;
 
-const Button = styled.button`
-  ${({ theme }) => theme.resetBtn}
+const Home = styled.a`
+  text-decoration: none;
   font-size: 32px;
   font-weight: 500;
   font-style: italic;
+
+  &:active,
+  &:visited {
+    color: #000;
+  }
 `;
 
 const GoToCS = styled.div`

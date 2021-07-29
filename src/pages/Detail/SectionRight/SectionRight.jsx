@@ -9,7 +9,6 @@ import Modal from './Modal/Modal';
 
 const SectionRight = ({ detailData }) => {
   const { main_info, bidding_detail, product_info } = detailData;
-  const mainInfo = main_info?.[0];
   const [openModal, setOpenModal] = useState(false);
   const [modalTabId, setModalTabId] = useState(1);
 
@@ -27,7 +26,7 @@ const SectionRight = ({ detailData }) => {
 
   return (
     <Wrapper>
-      <InfoHeader mainInfo={mainInfo} mutatePrice={mutatePrice} />
+      <InfoHeader mainInfo={main_info} mutatePrice={mutatePrice} />
       <Confirmation />
       <TransactionGraph
         getModalState={getModalState}

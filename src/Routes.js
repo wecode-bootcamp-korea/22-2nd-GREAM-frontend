@@ -10,11 +10,14 @@ import Bid from './pages/Bid/Bid';
 import Nav from './components/Nav/Nav';
 import Footer from './components/Footer/Footer';
 import BidSale from './pages/BidSale/BidSale';
+import moduleName from './components/ScrollToTop/ScrollToTop';
+import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 
 class Routes extends React.Component {
   render() {
     return (
       <Router>
+        <ScrollToTop />
         <Nav />
         <Switch>
           <Route exact path="/" component={Shop} />

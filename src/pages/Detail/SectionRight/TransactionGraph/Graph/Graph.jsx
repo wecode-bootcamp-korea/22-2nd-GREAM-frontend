@@ -59,8 +59,8 @@ const Graph = ({ graphData }) => {
   const extractData = index => {
     return graphData?.contract_detail?.reduce((acc, cur) => {
       const extract = Object.values(cur);
-      const date = extract[index];
-      acc.push(date);
+      const resultArr = extract[index];
+      acc.push(resultArr);
 
       return acc;
     }, []);

@@ -6,7 +6,7 @@ const ModalTableGroup = ({ tabId, detailData, mutatePrice }) => {
   if (!detailData.bidding_detail) return <span>Loading...</span>;
 
   const { contract_all, bidding_detail } = detailData;
-  const { buying_bidding, selling_bidding } = bidding_detail?.[0];
+  const { buying_bidding, selling_bidding } = bidding_detail;
 
   return (
     <TableWrapper openTab={tabId}>

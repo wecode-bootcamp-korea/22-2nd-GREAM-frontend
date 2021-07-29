@@ -5,7 +5,7 @@ import Title from '../Title/Title';
 const PaintInfo = ({ product_info, mutatePrice }) => {
   if (!product_info) return <span>Loading...</span>;
 
-  const { model_number, author, color, original_price } = product_info?.[0];
+  const { model_number, author, color, original_price } = product_info;
 
   return (
     <Wrapper>
