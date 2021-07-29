@@ -32,7 +32,7 @@ const NavBox = styled.div`
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 9999;
+  z-index: 2;
 `;
 const UpperNav = styled.div`
   display: flex;
