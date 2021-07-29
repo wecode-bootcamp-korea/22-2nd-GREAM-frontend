@@ -37,7 +37,7 @@ const ProductList = ({ productList, sortDrop, productAmount, pageSwitch }) => {
           <Card key={idx} productList={productList} />
         ))}
       </Grid>
-      {makeBtn(productNum)}
+      <Btn>{makeBtn(productNum)}</Btn>
     </div>
   );
 };
@@ -62,7 +62,24 @@ const Grid = styled.div`
   row-gap: 12px;
   column-gap: 12px;
 `;
-const Btn = styled.button``;
+const Btn = styled.div`
+  button {
+    /* margin-right: 3px; */
+    border: none;
+    border-right: 1.5px solid ${props => props.theme.subFontColor};
+    padding: 0, 12px;
+    background-color: transparent;
+    color: ${props => props.theme.fontColor};
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:last-child {
+      padding-right: 0;
+      border-right: none;
+    }
+  }
+`;
 
 export default ProductList;
 
