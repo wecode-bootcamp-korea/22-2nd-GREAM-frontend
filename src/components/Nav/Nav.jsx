@@ -3,13 +3,15 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Nav = () => {
+  const { push } = useHistory();
+
   return (
     <NavBox>
       <UpperNav>
         <GoToCS>고객센터</GoToCS>
         <GoToCart>관심상품</GoToCart>
         <GoToMyPage>마이페이지</GoToMyPage>
-        <Login>로그인</Login>
+        <Login onClick={() => push('/login')}>로그인</Login>
       </UpperNav>
       <BottomNav>
         <Home href="/">GREAM</Home>
