@@ -1,9 +1,16 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Button = ({ title, price, now, isSale }) => {
+  const { push } = useHistory();
+
+  const handleClick = title => {
+    title === '구매' ? push('/bidperchase') : push('/bidsale');
+  };
+
   return (
-    <Wrapper sale={isSale}>
+    <Wrapper sale={isSale} onClick={() => handleClick(title)}>
       <PartLeft sale={isSale}>{title}</PartLeft>
       <PartRight>
         <NowPrice>{price}</NowPrice>
