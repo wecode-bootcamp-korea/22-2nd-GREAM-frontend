@@ -38,7 +38,7 @@ const Wrapper = styled.section`
 
 const Fix = styled.div`
   position: sticky;
-  top: 0;
+  top: 100px;
   width: 100%;
   max-width: 540px;
 

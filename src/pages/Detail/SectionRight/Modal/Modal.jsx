@@ -62,12 +62,13 @@ const Modal = ({
 
 const Wrapper = styled.section`
   display: ${props => (props.isOpen ? 'block' : 'none')};
-  position: absolute;
+  position: fixed;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.4);
+  z-index: 99;
 `;
 const WrapperIn = styled.section`
   ${props => props.theme.setFlex('flex-start', 'center')};
