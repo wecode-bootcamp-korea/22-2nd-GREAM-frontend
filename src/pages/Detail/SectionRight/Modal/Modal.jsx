@@ -8,6 +8,8 @@ const Modal = ({
   modalTabId,
   getModalState,
   getModalTabIdState,
+  detailData,
+  mutatePrice,
 }) => {
   const removeModal = () => {
     getModalState(false);
@@ -19,8 +21,8 @@ const Modal = ({
   };
 
   return (
-    <Wrapper isOpen={openModal}>
-      <WrapperIn>
+    <Wrapper isOpen={openModal} onClick={removeModal}>
+      <WrapperIn onClick={e => e.stopPropagation()}>
         <Center>시세</Center>
         <Button onClick={removeModal}>
           <i className="fa fa-times" />
@@ -47,7 +49,11 @@ const Modal = ({
               );
             })}
           </Tabs>
-          <ModalTableGroup tabId={modalTabId} />
+          <ModalTableGroup
+            tabId={modalTabId}
+            detailData={detailData}
+            mutatePrice={mutatePrice}
+          />
         </Body>
       </WrapperIn>
     </Wrapper>

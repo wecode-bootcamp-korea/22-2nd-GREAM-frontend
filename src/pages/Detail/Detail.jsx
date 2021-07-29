@@ -1,13 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import SectionLeft from './SectionLeft/SectionLeft';
 import SectionRight from './SectionRight/SectionRight';
+import { PRODUCTS_API } from '../../config';
 
-const Detail = ({ productList }) => {
+const Detail = () => {
+  const { id } = useParams();
+  const [detailData, setDetailData] = useState([]);
+  const mainInfo = detailData?.main_info?.[0];
+
+  const fetchDetailData = () => {
+    fetch(`${PRODUCTS_API}/${id}`)
+      .then(res => res.json())
+      .then(data => setDetailData(data))
+      .catch(error => console.log(error));
+  };
+
+  useEffect(() => {
+    fetchDetailData();
+  }, []);
+
   return (
     <Wrapper>
-      <SectionLeft />
-      <SectionRight />
+      <SectionLeft mainInfo={mainInfo} />
+      <SectionRight detailData={detailData} />
     </Wrapper>
   );
 };

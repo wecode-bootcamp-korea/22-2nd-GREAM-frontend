@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const Carousel = () => {
-  const [buttonId, setButtontId] = useState('r1');
+const Carousel = ({ mainInfo }) => {
+  const [buttonId, setButtontId] = useState('r0');
 
   const moveRight = () => {
     const changedNum = Number(buttonId.slice(1));
-    const newButtonId =
-      changedNum === RADIOS.length ? 'r1' : `r${changedNum + 1}`;
-    setButtontId(newButtonId);
+    changedNum === mainInfo?.image_url?.length - 1
+      ? setButtontId(`r0`)
+      : setButtontId(`r${changedNum + 1}`);
   };
 
   const moveLeft = () => {
     const changedNum = Number(buttonId.slice(1));
-    const newButtonId =
-      changedNum === 1 ? `r${RADIOS.length}` : `r${changedNum - 1}`;
-    setButtontId(newButtonId);
+    changedNum === 0
+      ? setButtontId(`r${mainInfo?.image_url?.length - 1}`)
+      : setButtontId(`r${changedNum - 1}`);
   };
 
   const handleRadioChange = e => {
@@ -29,13 +29,13 @@ const Carousel = () => {
       </LeftButton>
       <InWrapper>
         <Slides>
-          {RADIOS.map(({ id, src }) => {
+          {mainInfo?.image_url?.map((url, idx) => {
             return (
               <Image
-                key={id}
-                src={src}
+                key={idx}
+                src={url}
                 id={buttonId}
-                checked={id == buttonId}
+                checked={`r${idx}` === buttonId}
               />
             );
           })}
@@ -45,14 +45,18 @@ const Carousel = () => {
         <i class="fas fa-chevron-right" />
       </RightButton>
       <Controls>
-        {RADIOS.map(({ id, src }) => {
+        {mainInfo?.image_url?.map((url, idx) => {
           return (
-            <Label key="id" htmlfor={id} checked={id == buttonId}>
+            <Label
+              key={idx}
+              htmlfor={`r${idx}`}
+              checked={`r${idx}` === buttonId}
+            >
               <Radio
                 type="radio"
                 name="radio"
-                id={id}
-                value={id}
+                id={`r${idx}`}
+                value={`r${idx}`}
                 onChange={handleRadioChange}
               />
             </Label>
@@ -62,7 +66,6 @@ const Carousel = () => {
     </Wrapper>
   );
 };
-
 const Wrapper = styled.section`
   position: relative;
   display: flex;
@@ -82,7 +85,6 @@ const InWrapper = styled.div`
   transform-style: preserve-3d;
   transform: perspective(2000px) rotateY(-30deg) translateZ(-40px);
 `;
-
 const Slides = styled.div`
   min-width: 540px;
   transition: 0.7s linear;
@@ -110,10 +112,11 @@ const Controls = styled.div`
 const Label = styled.label`
   width: 32px;
   margin-right: 10px;
-  border: 1px solid
+  border: 0.5px solid
     ${props => (props.checked ? props.theme.fontColor : '#d5d5d5')};
   cursor: pointer;
   transition: 0.2s linear;
+
   &:hover {
     border-color: ${props => props.theme.fontColor};
   }
@@ -133,31 +136,16 @@ const LeftButton = styled.button`
     color: #d6d7d9;
   }
 `;
-
 const RightButton = styled.button`
   ${({ theme }) => theme.resetBtn}
   position: absolute;
   right: 0;
   font-size: 22px;
   margin-right: 1em;
+
   i {
     color: #d6d7d9;
   }
 `;
-
-const RADIOS = [
-  {
-    id: 'r1',
-    src: 'https://ca.slack-edge.com/TH0U6FBTN-U01D0NZ6RTN-bc4ccc0f953c-512',
-  },
-  {
-    id: 'r2',
-    src: 'https://ca.slack-edge.com/TH0U6FBTN-UR3PU6YJE-9f9bcc164afc-512',
-  },
-  {
-    id: 'r3',
-    src: 'https://ca.slack-edge.com/TH0U6FBTN-U015PNKKKC0-b1a0e8eb88d7-512',
-  },
-];
 
 export default Carousel;

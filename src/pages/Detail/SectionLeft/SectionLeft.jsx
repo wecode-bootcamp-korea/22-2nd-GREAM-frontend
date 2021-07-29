@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Carousel from './Carousel/Carousel';
 
-const SectionLeft = () => {
+const SectionLeft = ({ mainInfo }) => {
   return (
     <Wrapper>
       <Fix>
-        <Carousel />
+        <Carousel mainInfo={mainInfo} />
         <Box>
           <LinkTag>
             <i class="fas fa-boxes" />
@@ -26,10 +26,9 @@ const Wrapper = styled.section`
   flex: 0 0 45vw;
   flex-direction: column;
   min-width: 390px;
-  min-height: 220vh;
+  height: 220vh;
   margin: 0 42px;
   position: relative;
-  z-index: 9;
 
   @media (min-width: 1290px) {
     max-width: 570px;
@@ -38,14 +37,14 @@ const Wrapper = styled.section`
 
 const Fix = styled.div`
   position: sticky;
-  top: 100px;
+  top: 0;
   width: 100%;
   max-width: 540px;
+
   @media (min-width: 1290px) {
     max-width: 570px;
   }
 `;
-
 const Box = styled.div`
   width: 100%;
   height: 80px;
@@ -60,10 +59,12 @@ const LinkTag = styled.a.attrs(props => ({
   ${props => props.theme.setFlex('flex-start', 'center')};
   text-decoration: none;
   color: ${props => props.theme.fontColor};
+
   &:active,
   &:visited {
     color: ${props => props.theme.fontColor};
   }
+
   i {
     font-size: 40px;
     color: ${props => props.theme.fontColor};

@@ -12,6 +12,7 @@ const Button = ({ title, price, now, isSale }) => {
     </Wrapper>
   );
 };
+
 const Wrapper = styled.button`
   ${props => props.theme.resetBtn}
   ${props => props.theme.setFlex('flex-start', 'center')};

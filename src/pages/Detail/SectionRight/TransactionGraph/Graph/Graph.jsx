@@ -35,16 +35,16 @@ const options = {
   },
 };
 
-const data = canvas => {
+const data = (canvas, graphData) => {
   const ctx = canvas.getContext('2d');
   const gradientFill = ctx.createLinearGradient(0, 0, 0, 200);
   gradientFill.addColorStop(0, 'rgba(225,116,116,0.5)');
   gradientFill.addColorStop(1, 'rgba(225,116,116,0.1)');
   return {
-    labels: [1, 2, 3, 4, 5, 6],
+    labels: graphData(0),
     datasets: [
       {
-        data: [330000, 460000, 500000, 600000, 500000, 600000],
+        data: graphData(1),
         fill: true,
         backgroundColor: gradientFill,
         borderColor: 'rgba(225,116,103)',
@@ -55,11 +55,26 @@ const data = canvas => {
   };
 };
 
-const Graph = () => {
+const Graph = ({ graphData }) => {
+  const extractData = index => {
+    return graphData?.contract_detail?.reduce((acc, cur) => {
+      const extract = Object.values(cur);
+      const date = extract[index];
+      acc.push(date);
+
+      return acc;
+    }, []);
+  };
+
   return (
     <Wrapper>
       <Position>
-        <Line width="10vw" height="3.5vh" data={data} options={options} />
+        <Line
+          width="10vw"
+          height="3.5vh"
+          data={canvas => data(canvas, extractData)}
+          options={options}
+        />
       </Position>
     </Wrapper>
   );

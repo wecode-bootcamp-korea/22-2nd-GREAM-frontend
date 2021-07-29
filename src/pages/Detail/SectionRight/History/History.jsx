@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Title from '../Title/Title';
 import TableComponent from '../TableComponent/TableComponent';
 import More from '../More/More';
 
-const History = ({ getModalState, getModalTabIdState }) => {
+const History = ({
+  getModalState,
+  getModalTabIdState,
+  bidding_detail,
+  mutatePrice,
+}) => {
   const [historyTabId, setHistoryTabId] = useState(1);
+
+  if (!bidding_detail) return <span>Loading...</span>;
+
+  const { buying_bidding, selling_bidding } = bidding_detail?.[0];
 
   const changeTable = id => {
     setHistoryTabId(id);
@@ -28,41 +37,25 @@ const History = ({ getModalState, getModalTabIdState }) => {
         })}
       </Tabs>
       <TableWrapper historyTabId={historyTabId}>
-        <TableComponent thOne="판매 희망가" thSecond="수량">
-          <tr>
-            <td>266,000</td>
-            <td>1</td>
-          </tr>
-          <tr>
-            <td>266,000</td>
-            <td>2</td>
-          </tr>
-          <tr>
-            <td>266,000</td>
-            <td>3</td>
-          </tr>
-          <tr>
-            <td>266,000</td>
-            <td>1</td>
-          </tr>
+        <TableComponent thOne="판매 희망가" thSecond="거래일">
+          {selling_bidding.slice(0, 4).map((history, idx) => {
+            return (
+              <tr key={idx}>
+                <td>{mutatePrice(history.selling_bidding_price)}</td>
+                <td>{history.selling_bidding_date}</td>
+              </tr>
+            );
+          })}
         </TableComponent>
-        <TableComponent thOne="구매 희망가" thSecond="수량">
-          <tr>
-            <td>266,000</td>
-            <td>1</td>
-          </tr>
-          <tr>
-            <td>266,000</td>
-            <td>2</td>
-          </tr>
-          <tr>
-            <td>266,000</td>
-            <td>3</td>
-          </tr>
-          <tr>
-            <td>266,000</td>
-            <td>1</td>
-          </tr>
+        <TableComponent thOne="구매 희망가" thSecond="거래일">
+          {buying_bidding.slice(0, 4).map((history, idx) => {
+            return (
+              <tr key={idx}>
+                <td>{mutatePrice(history.buying_bidding_price)}</td>
+                <td>{history.buying_bidding_date}</td>
+              </tr>
+            );
+          })}
         </TableComponent>
       </TableWrapper>
       <More
