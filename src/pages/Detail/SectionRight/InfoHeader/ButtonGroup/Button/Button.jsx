@@ -1,12 +1,21 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Button = ({ title, price, now, isSale }) => {
   const { push } = useHistory();
+  const { id } = useParams();
 
   const handleClick = title => {
-    title === '구매' ? push('/bidperchase') : push('/bidsale');
+    title === '구매'
+      ? push({
+          pathname: '/bidperchase',
+          state: { id: id },
+        })
+      : push({
+          pathname: '/bidsale',
+          state: { id: id },
+        });
   };
 
   return (
