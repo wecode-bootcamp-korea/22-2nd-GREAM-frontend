@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import TableComponent from '../../TableComponent/TableComponent';
 
-const ModalTableGroup = ({ tabId, detailData, mutatePrice }) => {
+const ModalTableGroup = ({ tabId, detailData, mutatePrice, sortDate }) => {
   if (!detailData.bidding_detail) return <span>Loading...</span>;
 
   const { contract_all, bidding_detail } = detailData;
@@ -11,16 +11,18 @@ const ModalTableGroup = ({ tabId, detailData, mutatePrice }) => {
   return (
     <TableWrapper openTab={tabId}>
       <TableComponent thOne="거래가" thSecond="거래일" modal={true}>
-        {contract_all?.map(({ contract_date, contract_price }, idx) => {
-          return (
-            <tr key={idx}>
-              <td>{mutatePrice(contract_price)}</td>
-              <td>{contract_date}</td>
-            </tr>
-          );
-        })}
+        {sortDate(contract_all, 'contract_date')?.map(
+          ({ contract_date, contract_price }, idx) => {
+            return (
+              <tr key={idx}>
+                <td>{mutatePrice(contract_price)}</td>
+                <td>{contract_date}</td>
+              </tr>
+            );
+          }
+        )}
       </TableComponent>
-      <TableComponent thOne="판매 희망가" thSecond="수량">
+      <TableComponent thOne="판매 희망가" thSecond="수량" modal={true}>
         {selling_bidding.map((history, idx) => {
           return (
             <tr key={idx}>
@@ -30,7 +32,7 @@ const ModalTableGroup = ({ tabId, detailData, mutatePrice }) => {
           );
         })}
       </TableComponent>
-      <TableComponent thOne="구매 희망가" thSecond="수량">
+      <TableComponent thOne="구매 희망가" thSecond="수량" modal={true}>
         {buying_bidding.map((history, idx) => {
           return (
             <tr key={idx}>

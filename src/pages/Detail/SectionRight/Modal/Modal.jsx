@@ -10,6 +10,7 @@ const Modal = ({
   getModalTabIdState,
   detailData,
   mutatePrice,
+  sortDate,
 }) => {
   const removeModal = () => {
     getModalState(false);
@@ -53,6 +54,7 @@ const Modal = ({
             tabId={modalTabId}
             detailData={detailData}
             mutatePrice={mutatePrice}
+            sortDate={sortDate}
           />
         </Body>
       </WrapperIn>
