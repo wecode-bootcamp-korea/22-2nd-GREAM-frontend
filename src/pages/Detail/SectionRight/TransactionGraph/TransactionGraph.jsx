@@ -11,9 +11,11 @@ const TransactionGraph = ({
   getModalState,
   getModalTabIdState,
   mutatePrice,
+  sortDate,
 }) => {
   const [graphTabId, setGraphTabId] = useState(1);
   const [graphData, setGraphData] = useState({});
+
   const { id } = useParams();
 
   const fetchGraphData = (value = '') => {
@@ -63,7 +65,7 @@ const TransactionGraph = ({
         <Graph graphData={graphData} />
       </GraphContainer>
       <TableComponent thOne="거래가" thSecond="거래일">
-        {graphData.contract_all
+        {sortDate(graphData.contract_all, 'contract_date')
           ?.slice(0, 4)
           .map(({ contract_date, contract_price }, idx) => {
             return (

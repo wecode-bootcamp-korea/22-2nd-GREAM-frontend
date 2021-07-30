@@ -16,6 +16,17 @@ const SectionRight = ({ detailData }) => {
     return Math.floor(price).toLocaleString();
   };
 
+  const sortDate = (arr, key) => {
+    return (
+      arr &&
+      arr.sort((a, b) => {
+        return (
+          new Date(b[`${key}`]).getTime() - new Date(a[`${key}`]).getTime()
+        );
+      })
+    );
+  };
+
   const getModalTabIdState = id => {
     setModalTabId(id);
   };
@@ -32,6 +43,7 @@ const SectionRight = ({ detailData }) => {
         getModalState={getModalState}
         getModalTabIdState={getModalTabIdState}
         mutatePrice={mutatePrice}
+        sortDate={sortDate}
       />
       <History
         getModalState={getModalState}
@@ -47,6 +59,7 @@ const SectionRight = ({ detailData }) => {
         getModalTabIdState={getModalTabIdState}
         detailData={detailData}
         mutatePrice={mutatePrice}
+        sortDate={sortDate}
       />
     </Wrapper>
   );
